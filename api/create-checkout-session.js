@@ -1,6 +1,6 @@
-const Stripe = require("stripe");
+import Stripe from "stripe";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -23,9 +23,9 @@ module.exports = async (req, res) => {
       cancel_url: `${req.headers.origin}/cancel`,
     });
 
-    return res.status(200).json({ url: session.url });
+    res.status(200).json({ url: session.url });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
-};
+}
